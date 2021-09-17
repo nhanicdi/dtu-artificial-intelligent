@@ -1,4 +1,3 @@
-import os
 G = []
 #-------------
 def init(path, G):
@@ -13,14 +12,6 @@ def init(path, G):
         if not string:
             break
         string = string.replace('\t', ' ') # replace tab character with space
-        # k = string.index(' ') # k = 1
-        # str = string[0:k] # str = [0:1] = 1
-        # i = int(str, base = 10) # i = 1
-        # m = string.index(' ', k + 1, -1) # m = 4
-        # str = string[k+1:m] # str = 2
-        # j = int(str, base = 10) # j = 2
-        # str = string[m+1:len(string)] # str = 1
-        # x = int(str, base = 10) # x = 1
         i, j, x = (string.split(' ')) # destructuring: https://riptutorial.com/python/example/14981/destructuring-assignment
         i = int(i)
         j = int(j)
@@ -36,9 +27,33 @@ def view_matrix(G, n):
             print('%d'%G[i][j], end = ' ')
         print()
 #------------------
+def DFS(u, n):
+    S = []
+    C = []
+    for i in range(n + 1):
+        S.append(0)
+        C.append(0)
+    top = 1
+    S[top] = u
+    while top > 0:
+        u = S[top]
+        top = top - 1
+        if C[u] == 1:
+            continue
+        print('%d' % u, end = '\t')
+        C[u] = 1
+        for j in range(1, n + 1):
+            v = n + 1 - j
+            if G[u][v] != 0 and C[v] == 0:
+                top = top + 1
+                S[top] = v
+
+#-------------------
 def main():
-    n = init('.\meeting-2\data\graph.inp', G)
+    n = init('.\meeting-3\data\graph-g4.inp', G)
     print('Xem ma tran G: ', end = '\n')
     view_matrix(G, n)
+    u = 1   # start
+    DFS(u, n)
 if __name__ == '__main__':
     main()
